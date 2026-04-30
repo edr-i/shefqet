@@ -1,1 +1,7 @@
 .venv/
+__pycache__/
+gpt2/
+*.pth
+*.json
+*.txt
+=*  

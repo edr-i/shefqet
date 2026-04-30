@@ -3,7 +3,7 @@ import tiktoken
 # import matplotlib.pyplot as plt
 import os
 from step4_GPT_model import GPTModel
-from step4_GPT_model import generate_text_simple
+from step4_GPT_model import generate_text_simple, generate
 from step2_BPE_tokenizer import create_dataloader_v1
 torch.manual_seed(123)
 
@@ -119,49 +119,58 @@ def generate_and_print_sample(model, tokenizer, device, start_context):
     print(decoded_text.replace("\n", " "))      
     model.train()
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if __name__ == "__main__":
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Training data
-file_path = "the-verdict.txt"
-with open(file_path, "r", encoding="utf-8") as file:
-    text_data = file.read()
+    # Training data
+    file_path = "the-verdict.txt"
+    with open(file_path, "r", encoding="utf-8") as file:
+        text_data = file.read()
 
-# Initialize model
-model = GPTModel(GPT_CONFIG_124M)
-model.to(device)
-optimizer = torch.optim.AdamW(
-    model.parameters(), lr=OTHER_SETTINGS["learning_rate"], weight_decay=OTHER_SETTINGS["weight_decay"]
-)
+    # Initialize model
+    model = GPTModel(GPT_CONFIG_124M)
+    model.to(device)
+    optimizer = torch.optim.AdamW(
+        model.parameters(), lr=OTHER_SETTINGS["learning_rate"], weight_decay=OTHER_SETTINGS["weight_decay"]
+    )
 
-# Train/validation ratio
-train_ratio = 0.90
-split_idx = int(train_ratio * len(text_data))
-train_data = text_data[:split_idx]
-val_data = text_data[split_idx:]
+    # Train/validation ratio
+    train_ratio = 0.90
+    split_idx = int(train_ratio * len(text_data))
+    train_data = text_data[:split_idx]
+    val_data = text_data[split_idx:]
 
-train_loader = create_dataloader_v1(
-    train_data,
-    batch_size=2,
-    max_length=GPT_CONFIG_124M["context_length"],
-    stride=GPT_CONFIG_124M["context_length"],
-    drop_last=True,
-    shuffle=True,
-    num_workers=0
-)
-val_loader = create_dataloader_v1(
-    val_data,
-    batch_size=2,
-    max_length=GPT_CONFIG_124M["context_length"],
-    stride=GPT_CONFIG_124M["context_length"],
-    drop_last=False,
-    shuffle=False,
-    num_workers=0
-)
+    train_loader = create_dataloader_v1(
+        train_data,
+        batch_size=2,
+        max_length=GPT_CONFIG_124M["context_length"],
+        stride=GPT_CONFIG_124M["context_length"],
+        drop_last=True,
+        shuffle=True,
+        num_workers=0
+    )
+    val_loader = create_dataloader_v1(
+        val_data,
+        batch_size=2,
+        max_length=GPT_CONFIG_124M["context_length"],
+        stride=GPT_CONFIG_124M["context_length"],
+        drop_last=False,
+        shuffle=False,
+        num_workers=0
+    )
 
-# Train model
-tokenizer = tiktoken.get_encoding("gpt2")
-train_losses, val_losses, tokens_seen = train_model_simple(
-    model, train_loader, val_loader, optimizer, device,
-    num_epochs=OTHER_SETTINGS["num_epochs"], eval_freq=5, eval_iter=5,
-    start_context="My name is", tokenizer=tokenizer
-)
+    # Train model
+    tokenizer = tiktoken.get_encoding("gpt2")
+    train_losses, val_losses, tokens_seen = train_model_simple(
+        model, train_loader, val_loader, optimizer, device,
+        num_epochs=OTHER_SETTINGS["num_epochs"], eval_freq=5, eval_iter=5,
+        start_context="My name is", tokenizer=tokenizer
+    )
+
+    # Save model
+    torch.save({
+        "model_state_dict": model.state_dict(),
+        "optimizer_state_dict": optimizer.state_dict(),
+        }, 
+        "model_and_optimizer.pth"
+    )
