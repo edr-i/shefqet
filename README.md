@@ -3,6 +3,7 @@
 A GPT-2 model built from scratch in PyTorch and fine-tuned on instruction-following data.
 
 ## Project Structure
+```
 src/
 ├── BPE_tokenizer.py     # Byte-pair encoding dataloader
 ├── attention_layer.py   # Multi-head self-attention implementation
@@ -16,6 +17,7 @@ data/
 
 finetune.py   # Fine-tunes GPT-2 medium (or small) on instruction data, saves model weights
 main.py       # Load the fine-tuned model and talk to it like a chatbot
+```
 
 ## Usage
 The model needs to be finetuned first. This will download the GPT-2 355M pretrained weights from OpenAI (around 1.5GB) and run training on the instruction dataset. Technically this is possible with the small 124M model, but practically the chatbot's responses would be only grammatically correct but incoherent. 
