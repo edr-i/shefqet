@@ -1,6 +1,8 @@
+# Step 4
+
 import torch
 import torch.nn as nn
-from step3_attention_layer import MultiHeadAttention
+from src.attention_layer import MultiHeadAttention
 
 GPT_CONFIG_124M = {
     "vocab_size": 50257,     # Vocabulary size

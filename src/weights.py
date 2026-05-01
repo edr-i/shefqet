@@ -1,3 +1,5 @@
+# Step 6
+
 import argparse
 import json
 import numpy as np
@@ -7,16 +9,8 @@ import tensorflow as tf
 import tiktoken
 import torch
 from tqdm import tqdm
-from step4_GPT_model import GPTModel
-
-def text_to_token_ids(text, tokenizer):
-    encoded = tokenizer.encode(text, allowed_special={'<|endoftext|>'})
-    encoded_tensor = torch.tensor(encoded).unsqueeze(0)   
-    return encoded_tensor
-
-def token_ids_to_text(token_ids, tokenizer):
-    flat = token_ids.squeeze(0)                
-    return tokenizer.decode(flat.tolist())
+from src.model import GPTModel
+from src.train import text_to_token_ids, token_ids_to_text
 
 def download_and_load_gpt2(model_size, models_dir):
     allowed_sizes = ("124M", "355M", "774M", "1558M")

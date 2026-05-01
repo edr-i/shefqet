@@ -9,10 +9,10 @@ from functools import partial
 import tiktoken
 from tqdm import tqdm
 
-from step6_loading_OpenAI_weights import download_and_load_gpt2
-from step4_GPT_model import GPTModel, generate
-from step6_loading_OpenAI_weights import load_weights_into_gpt
-from step5_training import train_model_simple
+from src.weights import download_and_load_gpt2
+from src.model import GPTModel, generate
+from src.weights import load_weights_into_gpt
+from src.train import train_model_simple
 
 
 def format_input(entry):
@@ -86,8 +86,8 @@ def download_and_load_file(file_path, url):
         return json.load(file)
 
 
-def main():
-    file_path = "instruction-data.json"
+if __name__ == "__main__":
+    file_path = "data/instruction-data.json"
     url = "https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/ch07/01_main-chapter-code/instruction-data.json"
     data = download_and_load_file(file_path, url)
 
@@ -160,10 +160,6 @@ def main():
 
     print(f"Training completed in {(time.time() - start_time) / 60:.2f} minutes.")
 
-    file_name = f"{re.sub(r'[ ()]', '', CHOOSE_MODEL)}-sft.pth"
+    file_name = f"models/{re.sub(r'[ ()]', '', CHOOSE_MODEL)}-sft.pth"
     torch.save(model.state_dict(), file_name)
     print(f"Model saved as {file_name}")
-
-
-if __name__ == "__main__":
-    main()

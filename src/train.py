@@ -1,11 +1,11 @@
+# Step 5
+
 import torch
 import tiktoken
-# import matplotlib.pyplot as plt
 import os
-from step4_GPT_model import GPTModel
-from step4_GPT_model import generate_text_simple, generate
-from step2_BPE_tokenizer import create_dataloader_v1
-torch.manual_seed(123)
+from src.model import GPTModel
+from src.model import generate_text_simple, generate
+from src.BPE_tokenizer import create_dataloader_v1
 
 GPT_CONFIG_124M = {
     "vocab_size": 50257,
@@ -120,6 +120,8 @@ def generate_and_print_sample(model, tokenizer, device, start_context):
     model.train()
 
 if __name__ == "__main__":
+    # Training on the verdict
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Training data
@@ -172,5 +174,5 @@ if __name__ == "__main__":
         "model_state_dict": model.state_dict(),
         "optimizer_state_dict": optimizer.state_dict(),
         }, 
-        "model_and_optimizer.pth"
+        "models/model_and_optimizer.pth"
     )
