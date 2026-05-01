@@ -38,5 +38,7 @@ python3 main.py
 pip install torch tiktoken tensorflow requests tqdm
 ```
 
+![App screenshot](public/app_view.png)
+
 ## Acknowledgements
 Based on the book [Build a Large Language Model From Scratch](https://www.manning.com/books/build-a-large-language-model-from-scratch) by Sebastian Raschka.

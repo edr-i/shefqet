@@ -5,3 +5,5 @@ gpt2/
 models/
 =*  
 __pycache__/
+.chainlit/
+.files/
