@@ -1,4 +1,4 @@
-# Step 6
+# Step 5
 
 import argparse
 import json

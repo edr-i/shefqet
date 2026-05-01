@@ -1,4 +1,4 @@
-# Step 3
+# Step 2
 
 import tiktoken
 import torch

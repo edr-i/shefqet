@@ -1,4 +1,4 @@
-# Step 4
+# Step 3
 
 import torch
 import torch.nn as nn
