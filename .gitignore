@@ -3,6 +3,5 @@ src/__pycache__/
 gpt2/
 *.pth
 models/
-*.json
-*.txt
 =*  
+__pycache__/
