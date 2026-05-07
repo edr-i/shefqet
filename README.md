@@ -1,5 +1,7 @@
 # ShefQET - GPT-2 model from scratch
 
+![App screenshot](public/app_view.png)
+
 A GPT-2 model built from scratch in PyTorch and fine-tuned on instruction-following data.
 
 ## Project Structure
@@ -16,11 +18,11 @@ data/
 └── the-verdict.txt        # Openly available short story used for initial pretraining experiments
 
 finetune.py   # Fine-tunes GPT-2 medium (or small) on instruction data, saves model weights
-main.py       # Load the fine-tuned model and talk to it like a chatbot
+main.py       # Load the fine-tuned model and chat with it (streaming token-by-token output)
 ```
 
 ## Usage
-The model needs to be finetuned first. This will download the GPT-2 355M pretrained weights from OpenAI (around 1.5GB) and run training on the instruction dataset. Technically this is possible with the small 124M model, but practically the chatbot's responses would be only grammatically correct but incoherent. 
+The model needs to be finetuned first. This will download the GPT-2 355M pretrained weights from OpenAI (around 1.5GB) and run training on the instruction dataset. Technically this is possible with the small 124M model, but practically the chatbot's responses would be grammatically correct but incoherent. Responses are streamed token by token as they are generated, similar to how ChatGPT displays output. 
 
 ```bash
 python3 finetune.py
@@ -37,8 +39,6 @@ python3 main.py
 ```bash
 pip install torch tiktoken tensorflow requests tqdm
 ```
-
-![App screenshot](public/app_view.png)
 
 ## Acknowledgements
 Based on the book [Build a Large Language Model From Scratch](https://www.manning.com/books/build-a-large-language-model-from-scratch) by Sebastian Raschka.
